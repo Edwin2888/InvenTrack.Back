@@ -1,0 +1,23 @@
+FROM php:8.2-fpm
+
+# Instalar extensiones PHP necesarias
+RUN docker-php-ext-install pdo pdo_mysql sockets
+
+# Instalar controladores de MySQL
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    default-libmysqlclient-dev \
+    && docker-php-ext-install mysqli
+
+# Instalar Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copiar tu archivo php.ini personalizado
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
+# Copiar tu aplicación PHP al directorio de trabajo del contenedor
+COPY . /var/www/html
+
+# Establecer el directorio de trabajo
+WORKDIR /var/www/html
