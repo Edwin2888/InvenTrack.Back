@@ -20,7 +20,7 @@ class VerifyJwtToken
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json('Unauthorized', 401);
         }
         return $next($request);
     }
