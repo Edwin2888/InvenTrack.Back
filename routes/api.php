@@ -10,9 +10,10 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', [JWTAuthController::class, 'logout']);
         Route::post('refresh', [JWTAuthController::class, 'refresh']);
         Route::get('profile', [JWTAuthController::class, 'profile']);
+        Route::get('string', [JWTAuthController::class, 'string']);
     });
     Route::withoutMiddleware([VerifyJwtToken::class])->group(function () {
-        Route::post('register', [JWTAuthController::class, 'register']);
+        Route::post('registrarUsuario', [JWTAuthController::class, 'registrarUsuario']);
         Route::post('login', [JWTAuthController::class, 'login']);
     });
 });

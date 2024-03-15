@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class JWTAuthController extends Controller
 {
 
-    public function register(Request $request): JsonResponse
+    public function registrarUsuario(Request $request): JsonResponse
     {
         $dataRegistro = $request->only('name', 'email', 'password');
 
@@ -34,9 +34,8 @@ class JWTAuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         return response()->json([
-            'message' => 'User created',
             'token' => auth()->attempt($credentials),
-            'user' => $user
+            'usuario' => $user
         ], 200);
         
     }
@@ -51,7 +50,7 @@ class JWTAuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
         if (! $token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json('Unauthorized', 401);
         }
         return $this->createNewToken($token);
     }
@@ -64,7 +63,7 @@ class JWTAuthController extends Controller
     public function logout(): JsonResponse
     {
         auth()->logout(true);
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json('Se ha cerrado la sesión correctamente');
     }
 
     public function refresh(): JsonResponse
@@ -75,9 +74,9 @@ class JWTAuthController extends Controller
     protected function createNewToken($token): JsonResponse
     {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'token' => $token,
+            'tipo_token' => 'bearer',
+            'expira_en' => auth()->factory()->getTTL() * 60
         ]);
     }
 }
