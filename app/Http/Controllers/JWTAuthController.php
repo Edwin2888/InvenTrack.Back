@@ -55,7 +55,7 @@ class JWTAuthController extends Controller
         return $this->createNewToken($token);
     }
 
-    public function profile(): JsonResponse
+    public function perfil(): JsonResponse
     {
         return response()->json(auth()->user());
     }

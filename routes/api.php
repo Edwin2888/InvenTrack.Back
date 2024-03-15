@@ -9,8 +9,7 @@ Route::prefix('auth')->group(function () {
     Route::middleware([VerifyJwtToken::class])->group(function () {
         Route::post('logout', [JWTAuthController::class, 'logout']);
         Route::post('refresh', [JWTAuthController::class, 'refresh']);
-        Route::get('profile', [JWTAuthController::class, 'profile']);
-        Route::get('string', [JWTAuthController::class, 'string']);
+        Route::get('perfil', [JWTAuthController::class, 'perfil']);
     });
     Route::withoutMiddleware([VerifyJwtToken::class])->group(function () {
         Route::post('registrarUsuario', [JWTAuthController::class, 'registrarUsuario']);
