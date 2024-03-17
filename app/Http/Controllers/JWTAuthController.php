@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Validator;
 
 class JWTAuthController extends Controller
 {

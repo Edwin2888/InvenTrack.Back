@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyJwtToken;
 use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\ProductosController;
 
 Route::prefix('auth')->group(function () {
     Route::middleware([VerifyJwtToken::class])->group(function () {
@@ -16,3 +17,11 @@ Route::prefix('auth')->group(function () {
         Route::post('login', [JWTAuthController::class, 'login']);
     });
 });
+
+Route::middleware([VerifyJwtToken::class])->group(function () {
+    Route::prefix('productos')->group(function () {
+        Route::get('/', [ProductosController::class, 'obtener']);
+        Route::post('/', [ProductosController::class, 'producto']);
+    });
+});
+
