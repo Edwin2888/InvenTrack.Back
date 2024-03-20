@@ -36,18 +36,25 @@ class ProductosController extends Controller
             return response()->json(['error' => $validator->messages()], 400);
         }
 
-        $id = $requestProducto['id'];
-
-        if (is_null($id)) {
-            $nuevoProducto = Producto::create($requestProducto);    
+        if (!isset($request->id)) {
+            $nuevoProducto = Producto::create($requestProducto);
             return response()->json($nuevoProducto, 201);
         } else {
-            $producto = Producto::find($id);
+            $producto = Producto::find($request->id);
             if (!$producto) {
                 return response()->json(['error' => 'El producto no existe.'], 404);
             }
             $producto->update($requestProducto);
             return response()->json($producto, 200);
         }
+    }
+
+    public function eliminar($id): JsonResponse {
+        $producto = Producto::find($id); 
+        if ($producto){
+            $producto->delete();
+            return response()->json('Producto eliminado exitosamente', 200);
+        }
+        return response()->json('El producto no existe', 404);
     }
 }

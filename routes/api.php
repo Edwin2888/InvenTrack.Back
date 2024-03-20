@@ -22,6 +22,7 @@ Route::middleware([VerifyJwtToken::class])->group(function () {
     Route::prefix('productos')->group(function () {
         Route::get('/', [ProductosController::class, 'obtener']);
         Route::post('/', [ProductosController::class, 'producto']);
+        Route::delete('/id={id}', [ProductosController::class, 'eliminar']);
     });
 });
 
