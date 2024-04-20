@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
-use App\Models\Producto;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
+use App\Domain\Producto\IProductoServicio;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductosController extends Controller
 {
+    protected $productoServicio;
+    public function __construct(IProductoServicio $iProductoServicio)
+    {
+        $this->productoServicio = $iProductoServicio;
+    }
     public function obtener(): JsonResponse
     {
-        $productos = Producto::get();
+        $productos = $this->productoServicio->obtenerTodos();
         return response()->json($productos, 200);
     }
 
@@ -25,31 +30,8 @@ class ProductosController extends Controller
             'idCategoria',
             'aplicaStock'
         );
-
-        $validator = Validator::make($requestProducto, [
-            'codigo' => 'required|string|between:3,100|unique:productos,codigo,' . $request->id,
-            'descripcion' => 'required|string|between:3,100',
-            'precioSugerido' => 'numeric',
-            'idCategoria' => 'numeric',
-            'aplicaStock' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 400);
-        }
-
-        $id = $requestProducto['id'];
-
-        if (is_null($id)) {
-            $nuevoProducto = Producto::create($requestProducto);
-            return response()->json($nuevoProducto, 201);
-        } else {
-            $producto = Producto::find($id);
-            if (!$producto) {
-                return response()->json(['error' => 'El producto no existe.'], 404);
-            }
-            $producto->update($requestProducto);
-            return response()->json($producto, 200);
-        }
+        $this->productoServicio->validarProducto($requestProducto);
+        $producto = $this->productoServicio->producto($requestProducto);
+        return response()->json($producto, Response::HTTP_OK);
     }
 }

@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['codigo', 'descripcion', 'precioSugerido', 'idCategoria', 'aplicaStock'];
+    protected $attributes = [
+        'precioSugerido' => 0,
+    ];
+    // $allowedStatuses = [TaskStatus::PENDING, TaskStatus::IN_PROGRESS, TaskStatus::COMPLETED];
+    // if (!in_array($value, $allowedStatuses)) {
+    //     throw new \InvalidArgumentException("Invalid status");
+    // }
+    // protected $fillable = ['codigo', 'descripcion', 'precioSugerido', 'idCategoria', 'aplicaStock'];
 }

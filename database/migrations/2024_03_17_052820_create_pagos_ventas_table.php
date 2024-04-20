@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,7 +13,7 @@ return new class extends Migration
         Schema::create('pagos_ventas', function (Blueprint $table) {
             $table->id();
             $table->integer('idVenta');
-            $table->double('dinero', 12,2);
+            $table->decimal('dinero', 12, 2);
             $table->string('tipo', 1);
             $table->string('codigoTransaccion', 100);
             $table->timestamps();
