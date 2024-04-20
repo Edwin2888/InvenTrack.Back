@@ -22,16 +22,8 @@ class ProductosController extends Controller
 
     public function producto(Request $request): JsonResponse
     {
-        $requestProducto = $request->only(
-            'id',
-            'codigo',
-            'descripcion',
-            'precioSugerido',
-            'idCategoria',
-            'aplicaStock'
-        );
-        $this->productoServicio->validarProducto($requestProducto);
-        $producto = $this->productoServicio->producto($requestProducto);
+        $this->productoServicio->validarProducto($request);
+        $producto = $this->productoServicio->producto($request);
         return response()->json($producto, Response::HTTP_OK);
     }
 }
