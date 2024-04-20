@@ -36,11 +36,6 @@ class JWTAuthController extends Controller
             'token' => auth()->attempt($credentials),
             'usuario' => $user
         ], 200);
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> d3c31fb21ddc52f5d014423982dca2322bd11239
     }
 
     public function login(Request $request): JsonResponse
@@ -52,11 +47,7 @@ class JWTAuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-<<<<<<< HEAD
         if (!$token = auth()->attempt($validator->validated())) {
-=======
-        if (! $token = auth()->attempt($validator->validated())) {
->>>>>>> d3c31fb21ddc52f5d014423982dca2322bd11239
             return response()->json('Unauthorized', 401);
         }
         return $this->createNewToken($token);
@@ -69,11 +60,7 @@ class JWTAuthController extends Controller
 
     public function logout(): JsonResponse
     {
-<<<<<<< HEAD
         auth()->logout();
-=======
-        auth()->logout(true);
->>>>>>> d3c31fb21ddc52f5d014423982dca2322bd11239
         return response()->json('Se ha cerrado la sesión correctamente');
     }
 
