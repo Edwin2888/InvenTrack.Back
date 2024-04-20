@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyJwtToken;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\JornadaController;
 
 Route::prefix('auth')->group(function () {
     Route::middleware([VerifyJwtToken::class])->group(function () {
@@ -23,10 +24,13 @@ Route::middleware([VerifyJwtToken::class])->group(function () {
         Route::get('/', [ProductosController::class, 'obtener']);
         Route::post('/', [ProductosController::class, 'producto']);
     });
+
+    Route::prefix('jornada')->group(function () {
+        Route::post('/iniciarJornada', [JornadaController::class, 'iniciarJornada']);
+        Route::post('/cerrarJornada', [JornadaController::class, 'cerrarJornada']);
+    });
 });
 
-// Route::fallback(function () {
-//     return response()->json([
-//         'message' => 'Page Not Found. If error persists, contact info@website.com'
-//     ], 404);
-// });
+Route::fallback(function () {
+    return response()->json('Url no encontrada', 404);
+});

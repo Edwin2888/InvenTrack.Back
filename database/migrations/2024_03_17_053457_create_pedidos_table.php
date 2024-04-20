@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('descripcion', 255);
             $table->string('codigoFactura', 255);
-            $table->decimal('dinero', 12.2);
+            $table->decimal('dinero', 12, 2);
             $table->string('estado', 1);
             $table->integer('idJornada');
             $table->timestamps();

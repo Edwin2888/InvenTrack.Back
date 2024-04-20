@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductosController extends Controller
 {
-    protected $productoServicio;
+    protected IProductoServicio $productoServicio;
     public function __construct(IProductoServicio $iProductoServicio)
     {
         $this->productoServicio = $iProductoServicio;
@@ -17,7 +17,7 @@ class ProductosController extends Controller
     public function obtener(): JsonResponse
     {
         $productos = $this->productoServicio->obtenerTodos();
-        return response()->json($productos, 200);
+        return response()->json($productos, Response::HTTP_OK);
     }
 
     public function producto(Request $request): JsonResponse
