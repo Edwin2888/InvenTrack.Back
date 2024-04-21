@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,10 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('identificacion', 100);
+            $table->string('nombres', 100)->nullable();
+            $table->string('apellidos', 100)->nullable();
+            $table->string('correo', 100)->nullable();
             $table->integer('celular')->nullable();
             $table->timestamps();
         });

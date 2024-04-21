@@ -12,12 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class JornadaServicio implements IJornadaServicio
 {
     protected ?Jornada $jornadaActual = null;
+    protected ?int $idJornada = null;
 
     public function __construct()
     {
         $jornada = Jornada::where('estado', EstadoJornada::ABIERTA)->first();
         if (!is_null($jornada)) {
             $this->jornadaActual = $jornada;
+            $this->idJornada = $jornada->id;
         }
     }
     public function iniciarJornada(Carbon $fecha): Jornada

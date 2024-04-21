@@ -34,6 +34,6 @@ class JornadaController extends Controller
     public function jornadaActual(): JsonResponse
     {
         $jornadaActual = $this->jornadaServicio->obtenerJornadaActual();
-        return response()->json($jornadaActual, Response::HTTP_OK);
+        return new JsonResponse($jornadaActual, Response::HTTP_OK);
     }
 }

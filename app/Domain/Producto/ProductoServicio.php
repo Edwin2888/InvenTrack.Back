@@ -2,8 +2,8 @@
 
 namespace App\Domain\Producto;
 
-use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Http\Requests\ProductoRequest;
 use App\Exceptions\InvenTrackException;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class ProductoServicio implements IProductoServicio
         return Producto::find($id);
     }
 
-    public function producto(Request $request): Producto
+    public function producto(ProductoRequest $request): Producto
     {
         try {
             $producto = (isset($request->id)) ?
@@ -37,18 +37,6 @@ class ProductoServicio implements IProductoServicio
     public function obtenerTodos(): Collection
     {
         return Producto::all();
-    }
-    public function validarProducto(Request $request): void
-    {
-        $request->validate([
-            'codigo' => 'required|string|between:3,100|unique:productos,codigo,' . $request->id,
-            'descripcion' => 'required|string|between:3,100',
-            'precioSugerido' => 'numeric',
-            'idCategoria' => 'numeric',
-            'aplicaStock' => 'required|boolean',
-        ]);
-        return;
-
     }
 
     private function nuevo(array $data): Producto

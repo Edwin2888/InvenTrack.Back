@@ -6,6 +6,7 @@ use App\Http\Middleware\VerifyJwtToken;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\JornadaController;
+use App\Http\Controllers\RegistradoraController;
 
 Route::prefix('auth')->group(function () {
     Route::middleware([VerifyJwtToken::class])->group(function () {
@@ -29,6 +30,10 @@ Route::middleware([VerifyJwtToken::class])->group(function () {
         Route::get('/', [JornadaController::class, 'jornadaActual']);
         Route::post('/iniciarJornada', [JornadaController::class, 'iniciarJornada']);
         Route::post('/cerrarJornada', [JornadaController::class, 'cerrarJornada']);
+    });
+
+    Route::prefix('registradora')->group(function () {
+        Route::post('/nuevoMovimiento', [RegistradoraController::class, 'movimiento']);
     });
 });
 
