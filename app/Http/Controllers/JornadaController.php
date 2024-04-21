@@ -17,7 +17,7 @@ class JornadaController extends Controller
     }
     public function iniciarJornada(Request $request): void
     {
-        $fecha = $this->jornadaServicio->obtenerFecha($request);
+        $fecha = Carbon::now();
         $this->jornadaServicio->iniciarJornada($fecha);
         return;
 
@@ -25,9 +25,15 @@ class JornadaController extends Controller
 
     public function cerrarJornada(Request $request): void
     {
-        $fecha = $this->jornadaServicio->obtenerFecha($request);
+        $fecha = Carbon::now();
         $this->jornadaServicio->cerrarJornada($fecha);
         return;
 
+    }
+
+    public function jornadaActual(): JsonResponse
+    {
+        $jornadaActual = $this->jornadaServicio->obtenerJornadaActual();
+        return response()->json($jornadaActual, Response::HTTP_OK);
     }
 }

@@ -26,6 +26,7 @@ Route::middleware([VerifyJwtToken::class])->group(function () {
     });
 
     Route::prefix('jornada')->group(function () {
+        Route::get('/', [JornadaController::class, 'jornadaActual']);
         Route::post('/iniciarJornada', [JornadaController::class, 'iniciarJornada']);
         Route::post('/cerrarJornada', [JornadaController::class, 'cerrarJornada']);
     });
