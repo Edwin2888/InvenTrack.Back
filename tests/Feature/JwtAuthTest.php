@@ -9,7 +9,8 @@ use Tests\TestCase;
 
 class JwtAuthTest extends TestCase
 {
-    public function test_registrar_usuario(): void {
+    public function test_registrar_usuario(): void
+    {
         Artisan::call('migrate');
         $urlBASE = 'API/auth/registrarUsuario';
 

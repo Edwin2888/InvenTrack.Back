@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,8 +14,8 @@ return new class extends Migration
             $table->id();
             $table->integer('idVentas');
             $table->integer('idProducto');
-            $table->double('dinero', 12,2);
-            $table->double('cantidad', 12,2);
+            $table->decimal('dinero', 12, 2);
+            $table->decimal('cantidad', 12, 2);
             $table->timestamps();
         });
     }

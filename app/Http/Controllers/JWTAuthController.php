@@ -36,7 +36,6 @@ class JWTAuthController extends Controller
             'token' => auth()->attempt($credentials),
             'usuario' => $user
         ], 200);
-        
     }
 
     public function login(Request $request): JsonResponse
@@ -48,7 +47,7 @@ class JWTAuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        if (! $token = auth()->attempt($validator->validated())) {
+        if (!$token = auth()->attempt($validator->validated())) {
             return response()->json('Unauthorized', 401);
         }
         return $this->createNewToken($token);
@@ -61,7 +60,7 @@ class JWTAuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        auth()->logout(true);
+        auth()->logout();
         return response()->json('Se ha cerrado la sesión correctamente');
     }
 
@@ -75,7 +74,7 @@ class JWTAuthController extends Controller
         return response()->json([
             'token' => $token,
             'tipo_token' => 'bearer',
-            'expira_en' => auth()->factory()->getTTL() * 60
+            'expira_en' => auth()->factory()->getTTL() * 720
         ]);
     }
 }
