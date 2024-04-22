@@ -29,8 +29,12 @@ class ProductoServicio implements IProductoServicio
         }
     }
 
-    public function eliminar(Producto $producto): void
+    public function eliminar(int $id): void
     {
+        $producto = Producto::find($id);
+        if (!$producto)
+            throw new InvenTrackException("El producto no existe", Response::HTTP_NOT_FOUND);
+
         $producto->delete();
     }
 

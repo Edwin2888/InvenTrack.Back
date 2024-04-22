@@ -10,7 +10,7 @@ interface IProductoServicio
 {
     public function buscarPorId(int $id): ?Producto;
     public function producto(ProductoRequest $request): Producto;
-    public function eliminar(Producto $producto): void;
+    public function eliminar(int $id): void;
     public function obtenerTodos(): Collection;
 
 }

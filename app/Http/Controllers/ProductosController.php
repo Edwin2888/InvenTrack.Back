@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use \Illuminate\Http\JsonResponse;
 use App\Http\Requests\ProductoRequest;
 use App\Domain\Producto\IProductoServicio;
@@ -26,13 +27,8 @@ class ProductosController extends Controller
         return new JsonResponse($producto, Response::HTTP_OK);
     }
 
-    // public function eliminar($id): JsonResponse
-    // {
-    //     $producto = Producto::find($id);
-    //     if ($producto) {
-    //         $producto->delete();
-    //         return response()->json('Producto eliminado exitosamente', 200);
-    //     }
-    //     return response()->json('El producto no existe', 404);
-    // }
+    public function eliminar(int $id): void
+    {
+        $this->productoServicio->eliminar($id);
+    }
 }
