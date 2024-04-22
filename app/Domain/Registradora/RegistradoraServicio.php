@@ -25,54 +25,86 @@ class RegistradoraServicio extends JornadaServicio implements IRegistradoraServi
                 $this->saldoInicial($request);
                 break;
             case MovimientoCajaRegistradora::SALDO_FINAL:
-                $this->saldoFinal();
+                $this->saldoFinal($request);
                 break;
             default:
-                $this->generarMovimiento($request->movimiento);
+                $this->generarMovimiento($request);
         }
     }
     protected function saldoInicial(RegistradoraRequest $request): void
     {
-        $movimientoInicial = MovimientoCajaRegistradora::SALDO_INICIAL;
-
-        $existeMovimiento = Registradora::where('idJornada', $this->idJornada)
-            ->where('movimiento', $movimientoInicial)
-            ->first();
+        $existeMovimiento = $this->movimientoPorTipo(MovimientoCajaRegistradora::SALDO_INICIAL);
 
         if ($existeMovimiento)
             throw new InvenTrackException("Solo puedes ingresar un saldo inicial 1 vez por jornada.", Response::HTTP_BAD_REQUEST);
 
         $movimientoRegistradora = new Registradora();
         $movimientoRegistradora->idJornada = $this->idJornada;
-        $movimientoRegistradora->movimiento = $movimientoInicial;
+        $movimientoRegistradora->movimiento = MovimientoCajaRegistradora::SALDO_INICIAL;
         $movimientoRegistradora->dinero = $request->dinero;
         $movimientoRegistradora->idUsuario = auth()->user()->id;
         $movimientoRegistradora->descripcion = $request->input('descripcion');
         $movimientoRegistradora->save();
     }
-    protected function saldoFinal(): void
+    protected function saldoFinal(RegistradoraRequest $request): void
     {
-        // $movimientoFinal = MovimientoCajaRegistradora::SALDO_FINAL;
 
-        // $existeMovimiento = Registradora::where('idJornada', $this->idJornada)
-        //     ->where('movimiento', $movimientoFinal)
-        //     ->first();
+        $movimientosRegistradora = Registradora::where('idJornada', $this->idJornada)
+            ->whereIn('movimiento', [MovimientoCajaRegistradora::SALDO_INICIAL, MovimientoCajaRegistradora::SALDO_FINAL])
+            ->get();
 
-        // if ($existeMovimiento)
-        //     throw new InvenTrackException("Solo puedes ingresar un saldo inicial 1 vez por jornada.", Response::HTTP_BAD_REQUEST);
+        $cantMovimientosInicial = $movimientosRegistradora->filter(function ($movimiento) {
+            return $movimiento->movimiento == MovimientoCajaRegistradora::SALDO_INICIAL;
+        })->count();
 
-        // $movimientoRegistradora = new Registradora();
-        // $movimientoRegistradora->idJornada = $this->idJornada;
-        // $movimientoRegistradora->movimiento = $movimientoInicial;
-        // $movimientoRegistradora->dinero = $request->dinero;
-        // $movimientoRegistradora->idUsuario = auth()->user()->id;
-        // $movimientoRegistradora->descripcion = $request->input('descripcion');
-        // $movimientoRegistradora->save();
-        // dd(MovimientoCajaRegistradora::SALDO_FINAL);
+        if ($cantMovimientosInicial === 0)
+            throw new InvenTrackException("Debes tener un movimiento de saldo inicial.", Response::HTTP_BAD_REQUEST);
+
+        $cantMovimientosFinal = $movimientosRegistradora->filter(function ($movimiento) {
+            return $movimiento->movimiento == MovimientoCajaRegistradora::SALDO_FINAL;
+        })->count();
+
+        if ($cantMovimientosFinal > 0)
+            throw new InvenTrackException("No puedes tener dos movimientos de saldo final en una misma jornada.", Response::HTTP_BAD_REQUEST);
+        $movimientoRegistradora = new Registradora();
+        $movimientoRegistradora->idJornada = $this->idJornada;
+        $movimientoRegistradora->movimiento = MovimientoCajaRegistradora::SALDO_FINAL;
+        $movimientoRegistradora->dinero = $request->dinero;
+        $movimientoRegistradora->idUsuario = auth()->user()->id;
+        $movimientoRegistradora->descripcion = $request->input('descripcion');
+        $movimientoRegistradora->save();
     }
-    protected function generarMovimiento(string $movimiento): void
+    protected function generarMovimiento(RegistradoraRequest $request): void
     {
-        dd($movimiento);
+        $existeMovimientoInicial = $this->movimientoPorTipo(MovimientoCajaRegistradora::SALDO_INICIAL);
+        if (!$existeMovimientoInicial)
+            throw new InvenTrackException("Debes tener un movimiento de saldo inicial.", Response::HTTP_BAD_REQUEST);
+
+        if ($request->dinero == 0)
+            throw new InvenTrackException("No puedes generar un movimiento con valor 0.", Response::HTTP_BAD_REQUEST);
+
+        if ($request->movimiento !== MovimientoCajaRegistradora::AJUSTES && $request->dinero < 1)
+            throw new InvenTrackException("Solo puedes enviar movimientos negativos para el movimiento de ajuste.", Response::HTTP_BAD_REQUEST);
+
+        $existeMovimientoFinal = $this->movimientoPorTipo(MovimientoCajaRegistradora::SALDO_FINAL);
+
+        if ($existeMovimientoFinal)
+            throw new InvenTrackException("Ya hay un movimiento de saldo final para la jornada, no puedes ingresar mas movimientos.", Response::HTTP_BAD_REQUEST);
+
+        $movimientoRegistradora = new Registradora();
+        $movimientoRegistradora->idJornada = $this->idJornada;
+        $movimientoRegistradora->movimiento = $request->movimiento;
+        $movimientoRegistradora->dinero = $request->dinero;
+        $movimientoRegistradora->idUsuario = auth()->user()->id;
+        $movimientoRegistradora->descripcion = $request->input('descripcion');
+        $movimientoRegistradora->save();
+    }
+
+    private function movimientoPorTipo(string $tipoMovimiento)
+    {
+        return Registradora::where('idJornada', $this->idJornada)
+            ->where('movimiento', $tipoMovimiento)
+            ->first();
     }
 
 }
