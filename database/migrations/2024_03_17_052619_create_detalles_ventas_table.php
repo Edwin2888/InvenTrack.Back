@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('detalles_ventas', function (Blueprint $table) {
             $table->id();
-            $table->integer('idVentas');
-            $table->integer('idProducto');
+            $table->foreignId('idVenta')->constrained('ventas');
+            $table->foreignId('idProducto')->constrained('productos');
             $table->decimal('dinero', 12, 2);
             $table->decimal('cantidad', 12, 2);
             $table->timestamps();

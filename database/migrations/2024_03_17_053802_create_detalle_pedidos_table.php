@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('detalle_pedidos', function (Blueprint $table) {
             $table->id();
-            $table->integer('idPedido');
-            $table->integer('idProducto');
+            $table->foreignId('idPedido')->constrained('pedidos');
+            $table->foreignId('idProducto')->constrained('productos');
             $table->decimal('unidadMedida', 12, 2);
             $table->decimal('cantidad', 12, 2);
             $table->timestamps();

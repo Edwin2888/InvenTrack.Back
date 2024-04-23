@@ -35,6 +35,7 @@ Route::middleware([VerifyJwtToken::class])->group(function () {
 
     Route::prefix('registradora')->group(function () {
         Route::post('/nuevoMovimiento', [RegistradoraController::class, 'movimiento']);
+        Route::get('/resultadoJornada', [RegistradoraController::class, 'resultadoJornada']);
     });
 });
 

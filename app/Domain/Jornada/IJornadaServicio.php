@@ -12,5 +12,4 @@ interface IJornadaServicio
     public function cerrarJornada(Carbon $fecha): Jornada;
     public function obtenerJornadaActual(): ?Jornada;
 
-    // public function obtenerFecha(Request $request): Carbon;
 }

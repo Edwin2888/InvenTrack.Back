@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('detalles_documentos', function (Blueprint $table) {
-            $table->id();
-            $table->integer('idDocumento');
-            $table->integer('idProducto');
-            $table->decimal('cantidad', 12, 2);
-            $table->integer('idUsuario');
+        Schema::create('mesas_ventas', function (Blueprint $table) {
+            $table->foreignId('idVenta')->constrained('ventas');
+            $table->foreignId('idMesa')->constrained('mesas');
+            $table->foreignId('idUsuario')->constrained('users');
             $table->timestamps();
+
+            $table->primary(['idMesa', 'idVenta']);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalles_documentos');
+        Schema::dropIfExists('mesas_ventas');
     }
 };

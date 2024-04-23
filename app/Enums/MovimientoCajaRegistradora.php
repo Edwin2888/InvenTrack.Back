@@ -11,4 +11,14 @@ abstract class MovimientoCajaRegistradora
     const AJUSTES = 'A';
     const DEUDAS = 'D';
     const SALDO_FINAL = 'F';
+
+    public static function movimientosASumar(): array
+    {
+        return [self::SALDO_INICIAL, self::VENTAS, self::AJUSTES, self::DEUDAS];
+    }
+
+    public static function movimientosARestar(): array
+    {
+        return [self::GASTOS, self::PEDIDOS];
+    }
 }

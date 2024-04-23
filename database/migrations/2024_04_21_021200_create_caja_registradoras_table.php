@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('registradoras', function (Blueprint $table) {
             $table->id();
-            $table->integer('idJornada');
-            $table->string('movimiento', '1');
+            $table->foreignId('idJornada')->constrained('jornadas');
+            $table->string('movimiento', 1);
             $table->decimal('dinero', 12, 2);
-            $table->integer('idUsuario');
+            $table->foreignId('idUsuario')->constrained('users');
             $table->string('descripcion', 255)->nullable();
             $table->timestamps();
         });

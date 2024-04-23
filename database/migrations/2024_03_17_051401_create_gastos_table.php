@@ -16,8 +16,9 @@ return new class extends Migration {
             $table->string('codigoFactura', 255)->nullable();
             $table->decimal('dinero', 12, 2);
             $table->boolean('estado');
-            $table->integer('idJornada');
-            $table->integer('idCategoria');
+            $table->foreignId('idJornada')->constrained('jornadas');
+            $table->foreignId('idCategoria')->constrained('categorias')->nullable();
+            $table->foreignId('idUsuario')->constrained('users');
             $table->text('observacion')->nullable();
             $table->timestamps();
         });

@@ -10,12 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('pagos_ventas', function (Blueprint $table) {
+        Schema::create('detalles_documentos', function (Blueprint $table) {
             $table->id();
-            $table->integer('idVenta');
-            $table->decimal('dinero', 12, 2);
-            $table->string('tipo', 1);
-            $table->string('codigoTransaccion', 100);
+            $table->foreignId('idDocumento')->constrained('documentos');
+            $table->foreignId('idProducto')->constrained('productos');
+            $table->decimal('cantidad', 12, 2);
+            $table->foreignId('idUsuario')->constrained('users');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('pagos_ventas');
+        Schema::dropIfExists('detalles_documentos');
     }
 };

@@ -4,7 +4,6 @@ namespace App\Domain\Jornada;
 
 use App\Models\Jornada;
 use App\Enums\EstadoJornada;
-// use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Exceptions\InvenTrackException;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,17 +47,4 @@ class JornadaServicio implements IJornadaServicio
     {
         return $this->jornadaActual;
     }
-
-    // public function obtenerFecha(Request $request): Carbon
-    // {
-    //     $request->validate([
-    //         'fecha' => 'date',
-    //     ]);
-    //     if (isset($request->fecha)) {
-    //         $fecha = Carbon::parse($request->fecha);
-    //     } else {
-    //         $fecha = Carbon::now();
-    //     }
-    //     return $fecha;
-    // }
 }
