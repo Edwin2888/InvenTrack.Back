@@ -19,9 +19,9 @@ class RegistradoraController extends Controller
         $this->registradoraServicio->movimiento($request);
     }
 
-    public function resultadoJornada(int $idJornada = null): JsonResponse
+    public function resultadoJornada(): JsonResponse
     {
-        $resultado = $this->registradoraServicio->resultadoJornada($idJornada);
+        $resultado = $this->registradoraServicio->resultadoJornada();
         return new JsonResponse($resultado, Response::HTTP_OK);
     }
 }

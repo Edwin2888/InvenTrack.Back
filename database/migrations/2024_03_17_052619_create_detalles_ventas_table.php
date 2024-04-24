@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('idVenta')->constrained('ventas');
             $table->foreignId('idProducto')->constrained('productos');
-            $table->decimal('dinero', 12, 2);
+            $table->decimal('valorVenta', 12, 2);
             $table->decimal('cantidad', 12, 2);
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('idPedido')->constrained('pedidos');
             $table->foreignId('idProducto')->constrained('productos');
-            $table->decimal('unidadMedida', 12, 2);
+            $table->decimal('cantidadContenedor', 12, 2);
             $table->decimal('cantidad', 12, 2);
             $table->timestamps();
         });

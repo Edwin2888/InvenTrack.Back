@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jornada extends Model
 {
     use HasFactory;
+    protected $fillable = ['fechaInicial', 'fechaFinal', 'estado', 'id', 'created_at', 'updated_at'];
 
     protected static function boot()
     {

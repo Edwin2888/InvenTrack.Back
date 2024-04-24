@@ -2,12 +2,16 @@
 
 namespace App\Domain\Registradora;
 
+use App\Jobs\ColaJornada;
 use App\Models\Registradora;
 use App\Enums\MovimientoCajaRegistradora;
 use App\Exceptions\InvenTrackException;
 use App\Domain\Jornada\JornadaServicio;
 use App\Http\Requests\RegistradoraRequest;
 use Symfony\Component\HttpFoundation\Response;
+
+use Illuminate\Bus\Batch;
+use Illuminate\Support\Facades\Bus;
 
 class RegistradoraServicio extends JornadaServicio implements IRegistradoraServicio
 {
@@ -97,6 +101,8 @@ class RegistradoraServicio extends JornadaServicio implements IRegistradoraServi
         $movimientoRegistradora->idUsuario = auth()->user()->id;
         $movimientoRegistradora->descripcion = $request->descripcion;
         $movimientoRegistradora->save();
+
+        ColaJornada::dispatch($movimientoRegistradora->id);
     }
 
     private function movimientoPorTipo(string $tipoMovimiento)

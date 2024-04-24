@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
+            $table->datetime('fecha');
             $table->string('descripcion', 255);
             $table->string('codigoFactura', 255)->nullable();
-            $table->decimal('dinero', 12, 2);
+            $table->decimal('total', 12, 2);
             $table->string('estado', 1);
-            $table->foreignId('idJornada')->constrained('jornadas');
             $table->foreignId('idUsuario')->constrained('users');
             $table->timestamps();
         });
