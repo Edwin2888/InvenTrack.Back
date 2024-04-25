@@ -15,5 +15,5 @@ class Producto extends Model
     // if (!in_array($value, $allowedStatuses)) {
     //     throw new \InvalidArgumentException("Invalid status");
     // }
-    protected $fillable = ['codigo', 'descripcion', 'precioSugerido', 'idCategoria', 'aplicaStock'];
+    protected $fillable = ['codigo', 'descripcion', 'precioSugerido', 'aplicaStock', 'idUsuario'];
 }

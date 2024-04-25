@@ -25,6 +25,7 @@ class ProductoServicio implements IProductoServicio
                 $this->nuevo($request->all());
             return $producto;
         } catch (\Throwable $th) {
+            dd($th);
             throw new InvenTrackException($th->getMessage(), $th->getCode(), $th);
         }
     }
@@ -45,12 +46,14 @@ class ProductoServicio implements IProductoServicio
 
     private function nuevo(array $data): Producto
     {
+        $data['idUsuario'] = auth()->user()->id;
         $producto = Producto::create($data);
         return $producto;
     }
 
     private function actualizar(array $data): Producto
     {
+        $data['idUsuario'] = auth()->user()->id;
         $producto = Producto::find($data['id']);
         if (!$producto)
             throw new InvenTrackException("El producto no existe.", Response::HTTP_NOT_FOUND);

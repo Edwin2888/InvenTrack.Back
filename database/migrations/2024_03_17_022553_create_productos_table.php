@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('codigo', 100)->unique();
             $table->string('descripcion', 100);
             $table->decimal('precioSugerido', 12, 2);
-            $table->foreignId('idCategoria')->constrained('categorias')->nullable();
+            $table->foreignId('idCategoria')->nullable()->constrained('categorias');
             $table->boolean('aplicaStock');
             $table->foreignId('idUsuario')->constrained('users');
             $table->timestamps();
