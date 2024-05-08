@@ -3,12 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Exception;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyJwtToken
+class Cors
 {
     /**
      * Handle an incoming request.
@@ -17,11 +15,12 @@ class VerifyJwtToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        try {
-            JWTAuth::parseToken()->authenticate();
-        } catch (Exception $e) {
-            return response()->json('Unauthorized', 401);
-        }
-        return $next($request);
+        $response = $next($request);
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Origin, Authorization');
+
+        return $response;
     }
 }

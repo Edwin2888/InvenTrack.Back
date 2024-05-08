@@ -25,7 +25,6 @@ class ProductoServicio implements IProductoServicio
                 $this->nuevo($request->all());
             return $producto;
         } catch (\Throwable $th) {
-            dd($th);
             throw new InvenTrackException($th->getMessage(), $th->getCode(), $th);
         }
     }
